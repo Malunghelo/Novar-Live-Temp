@@ -3,325 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NOVAR - Live Streaming Platform</title>
-    <meta name="description" content="High-quality live streaming platform for hosts and audiences">
+    <title>NOVAR - LiveStreaming</title>
+
     
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        #root {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .header {
-            background-color: #1a1a2e;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .header h1 {
-            font-size: 1.5rem;
-        }
-        
-        .stream-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background-color: black;
-            position: relative;
-        }
-        
-        .loading-overlay, .error-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            padding: 20px;
-            text-align: center;
-        }
-        
-        .loading-spinner {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .room-info {
-            background-color: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 10px 15px;
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 10;
-            border-radius: 5px;
-            font-size: 0.9rem;
-        }
-        
-        .share-section {
-            background-color: #16213e;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-        
-        .share-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-        }
-        
-        .share-btn:hover {
-            background-color: #45a049;
-        }
-        
-        .copy-link {
-            display: flex;
-            margin: 10px auto;
-            max-width: 500px;
-        }
-        
-        .copy-link input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px 0 0 5px;
-            font-size: 0.9rem;
-        }
-        
-        .copy-link button {
-            padding: 10px 15px;
-            background-color: #0f3460;
-            color: white;
-            border: none;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-        }
-        
-        .footer {
-            background-color: #1a1a2e;
-            color: white;
-            text-align: center;
-            padding: 1rem;
-            font-size: 0.8rem;
-        }
-        
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.2rem;
+    <head>
+        <style>
+            #root {
+                width: 100vw;
+                height: 100vh;
             }
-            
-            .room-info {
-                font-size: 0.8rem;
-                padding: 8px 12px;
-            }
-            
-            .share-btn {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+        </style>
+    </head>
 </head>
 
 <body>
-    <div id="root">
-        <div class="header">
-            <h1>NOVAR Live Streaming</h1>
-        </div>
-        
-        <div class="stream-container">
-            <div class="loading-overlay">
-                <div class="loading-spinner"></div>
-                <p>Initializing live stream...</p>
-            </div>
-        </div>
-        
-        <div class="share-section" style="display: none;">
-            <h3>Invite others to join</h3>
-            <div class="copy-link">
-                <input type="text" id="invite-link" readonly>
-                <button id="copy-btn">Copy</button>
-            </div>
-        </div>
-        
-        <div class="footer">
-            &copy; <span id="year"></span> NOVAR Live Streaming. All rights reserved.
-        </div>
-    </div>
+    <div id="root"></div>
+</body> 
 
-    <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
-    <script>
-        // Set current year in footer
-        document.getElementById('year').textContent = new Date().getFullYear();
+<script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+<script>
 
-        function getUrlParams(url) {
-            try {
-                let urlStr = url.split('?')[1] || '';
-                const urlSearchParams = new URLSearchParams(urlStr);
-                return Object.fromEntries(urlSearchParams.entries());
-            } catch (error) {
-                console.error('Error parsing URL parameters:', error);
-                return {};
-            }
-        }
+    function getUrlParams(url) {
+        let urlStr = url.split('?')[1];
+        const urlSearchParams = new URLSearchParams(urlStr);
+        const result = Object.fromEntries(urlSearchParams.entries());
+        return result;
+    }
 
-        function showError(message) {
-            const streamContainer = document.querySelector('.stream-container');
-            const loadingOverlay = document.querySelector('.loading-overlay');
-            
-            if (loadingOverlay) {
-                loadingOverlay.innerHTML = `
-                    <div style="color: #ff6b6b; font-size: 2rem; margin-bottom: 20px;">⚠️</div>
-                    <h2 style="color: #ff6b6b; margin-bottom: 10px;">Error</h2>
-                    <p>${message}</p>
-                    <button onclick="window.location.reload()" style="margin-top: 20px; padding: 8px 16px; background: #ff6b6b; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                        Try Again
-                    </button>
-                `;
-            }
-        }
 
-        function initLiveStream() {
-            try {
-                // Generate a Kit Token by calling a method.
-                // @param 1: appID
-                // @param 2: serverSecret
-                // @param 3: Room ID
-                // @param 4: User ID
-                // @param 5: Username
-                const params = getUrlParams(window.location.href);
-                const roomID = params["roomID"] || Math.floor(Math.random() * 10000) + "";
-                const userID = Math.floor(Math.random() * 10000) + "";
-                const userName = params["name"] || "User" + userID;
-                const appID = 860758643;
-                const serverSecret = "764c4693806fe7215577879f0b927f6e";
-                
-                if (!appID || !serverSecret) {
-                    throw new Error('Missing required API credentials');
-                }
+    // Generate a Kit Token by calling a method.
+    // @param 1: appID
+    // @param 2: serverSecret
+    // @param 3: Room ID
+    // @param 4: User ID
+    // @param 5: Username
+    const roomID = getUrlParams(window.location.href)["roomID"] || (Math.floor(Math.random) * 1000) + "";
+    const userID = Math.floor(Math.random() * 10000) + "";
+    const userName = "userName" + userID;
+    const appID = 860758643;
+    const serverSecret = "764c4693806fe7215577879f0b927f6e";
+    const kitToken =  ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 
-                const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
-                    appID, 
-                    serverSecret, 
-                    roomID, 
-                    userID, 
-                    userName
-                );
 
-                // Determine role based on URL parameters
-                let role = params['role'] || 'Host';
-                role = role === 'Host' ? ZegoUIKitPrebuilt.Host : ZegoUIKitPrebuilt.Audience;
+    // You can assign different roles based on url parameters.
+    let role = getUrlParams(window.location.href)['role'] || 'Host';
+    role = role === 'Host' ? ZegoUIKitPrebuilt.Host : ZegoUIKitPrebuilt.Audience;
 
-                // Create room info display
-                const roomInfo = document.createElement('div');
-                roomInfo.className = 'room-info';
-                roomInfo.textContent = `Room: ${roomID} | ${role === ZegoUIKitPrebuilt.Host ? 'Host' : 'Audience'}`;
-                document.querySelector('.stream-container').appendChild(roomInfo);
 
-                // Create and join room
-                const zp = ZegoUIKitPrebuilt.create(kitToken);
-                
-                zp.joinRoom({
-                    container: document.querySelector(".stream-container"),
-                    scenario: {
-                        mode: ZegoUIKitPrebuilt.LiveStreaming,
-                        config: {
-                            role,
-                        },
-                    },
-                    sharedLinks: [{
-                        name: 'Join as audience',
-                        url:
-                            window.location.protocol + '//' + 
-                            window.location.host + window.location.pathname +
-                            '?roomID=' +
-                            roomID +
-                            '&role=Audience',
-                    }],
-                    onJoinRoom: () => {
-                        // Hide loading overlay when joined
-                        document.querySelector('.loading-overlay').style.display = 'none';
-                        
-                        // Show share section for host
-                        if (role === ZegoUIKitPrebuilt.Host) {
-                            document.querySelector('.share-section').style.display = 'block';
-                            const inviteLink = document.getElementById('invite-link');
-                            const audienceLink = window.location.protocol + '//' + 
-                                window.location.host + window.location.pathname +
-                                '?roomID=' + roomID + '&role=Audience';
-                            inviteLink.value = audienceLink;
-                            
-                            // Copy link functionality
-                            document.getElementById('copy-btn').addEventListener('click', () => {
-                                inviteLink.select();
-                                document.execCommand('copy');
-                                alert('Link copied to clipboard!');
-                            });
-                        }
-                    },
-                    errorHandler: (error) => {
-                        console.error('Streaming error:', error);
-                        showError(error.message || 'Failed to initialize live stream');
-                    }
-                });
-                
-            } catch (error) {
-                console.error('Initialization error:', error);
-                showError(error.message || 'An unexpected error occurred');
-            }
-        }
+    const zp = ZegoUIKitPrebuilt.create(kitToken);
+    zp.joinRoom({
+        container: document.querySelector("#root"),
+        scenario: {
+            mode: ZegoUIKitPrebuilt.LiveStreaming,
+            config: {
+                role,
+            },
+        },
+        sharedLinks: [{
+            name: 'Join as audience',
+            url:
+               window.location.protocol + '//' + 
+               window.location.host + window.location.pathname +
+                '?roomID=' +
+                roomID +
+                '&role=Audience',
+        }]
+    });
+</script>
 
-        // Check if Zego SDK is loaded before initializing
-        function checkSDKLoaded() {
-            if (window.ZegoUIKitPrebuilt) {
-                initLiveStream();
-            } else {
-                setTimeout(checkSDKLoaded, 100);
-            }
-        }
-
-        // Start the process
-        document.addEventListener('DOMContentLoaded', checkSDKLoaded);
-    </script>
-</body>
 </html>
